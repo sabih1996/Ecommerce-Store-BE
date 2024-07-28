@@ -10,6 +10,39 @@ services:
     depends_on:
       - db
 
+  product-service:
+    build: ./product-service
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./product-service/.env
+    environment:
+      - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    depends_on:
+      - db
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "3002:3000"
+    env_file:
+      - ./order-service/.env
+    environment:
+      - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    depends_on:
+      - db
+
+  cart-service:
+    build: ./cart-service
+    ports:
+      - "3003:3000"
+    env_file:
+      - ./cart-service/.env
+    environment:
+      - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    depends_on:
+      - db
+
   db:
     image: postgres:15
     volumes:
@@ -18,7 +51,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-      
+
   pgadmin:
     image: dpage/pgadmin4:latest
     restart: always
