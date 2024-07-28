@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateOrderTable1627890000000 implements MigrationInterface {
+export class CreateOrderItemTable1627890000001 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order',
+        name: 'order_item',
         columns: [
           {
             name: 'id',
@@ -14,15 +14,19 @@ export class CreateOrderTable1627890000000 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
-            name: 'name',
-            type: 'varchar',
-          },
-          {
-            name: 'userId',
+            name: 'productId',
             type: 'int',
           },
           {
-            name: 'totalAmount',
+            name: 'orderId',
+            type: 'int',
+          },
+          {
+            name: 'quantity',
+            type: 'int',
+          },
+          {
+            name: 'price',
             type: 'decimal',
           },
           {
@@ -35,21 +39,11 @@ export class CreateOrderTable1627890000000 implements MigrationInterface {
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
           },
-          {
-            name: 'status',
-            type: 'enum',
-            enum: ['Pending', 'On the way', 'Delivered'],
-            default: "'Pending'",
-          },
         ],
         indices: [
           {
-            name: 'IDX_ORDER_ID',
+            name: 'IDX_ORDER_ITEM_ID',
             columnNames: ['id'],
-          },
-          {
-            name: 'IDX_ORDER_NAME',
-            columnNames: ['name'],
           },
         ],
       }),
@@ -57,6 +51,6 @@ export class CreateOrderTable1627890000000 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('order');
+    await queryRunner.dropTable('order_item');
   }
 }

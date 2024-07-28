@@ -1,7 +1,6 @@
-// src/migrations/CreateUserTable.ts
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateUserTable1681234567890 implements MigrationInterface {
+export class CreateOrderTable1627890000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -15,20 +14,19 @@ export class CreateUserTable1681234567890 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
-            name: 'email',
-            type: 'varchar',
-            isUnique: true,
-          },
-          {
-            name: 'password',
-            type: 'varchar',
-          },
-          {
             name: 'name',
             type: 'varchar',
           },
           {
-            name: 'created_at',
+            name: 'userId',
+            type: 'int',
+          },
+          {
+            name: 'totalAmount',
+            type: 'decimal',
+          },
+          {
+            name: 'createdAt',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
           },
@@ -36,15 +34,29 @@ export class CreateUserTable1681234567890 implements MigrationInterface {
             name: 'updated_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
-            onUpdate: 'CURRENT_TIMESTAMP',
+          },
+          {
+            name: 'status',
+            type: 'enum',
+            enum: ['Pending', 'On the way', 'Delivered'],
+            default: "'Pending'",
+          },
+        ],
+        indices: [
+          {
+            name: 'IDX_ORDER_ID',
+            columnNames: ['id'],
+          },
+          {
+            name: 'IDX_ORDER_NAME',
+            columnNames: ['name'],
           },
         ],
       }),
-      true,
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable('order');
   }
 }
