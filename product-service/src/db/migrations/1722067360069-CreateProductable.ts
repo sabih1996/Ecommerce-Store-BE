@@ -1,11 +1,10 @@
-// src/migrations/CreateUserTable.ts
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateCartTable1681234567890 implements MigrationInterface {
+export class CreateProductTable1627890000001 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'cart',
+        name: 'product',
         columns: [
           {
             name: 'id',
@@ -15,17 +14,25 @@ export class CreateCartTable1681234567890 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
-            name: 'email',
-            type: 'varchar',
-            isUnique: true,
-          },
-          {
-            name: 'password',
-            type: 'varchar',
-          },
-          {
             name: 'name',
             type: 'varchar',
+          },
+          {
+            name: 'price',
+            type: 'decimal',
+          },
+          {
+            name: 'description',
+            type: 'text',
+          },
+          {
+            name: 'category',
+            type: 'varchar',
+          },
+          {
+            name: 'isActive',
+            type: 'boolean',
+            default: true,
           },
           {
             name: 'created_at',
@@ -36,15 +43,23 @@ export class CreateCartTable1681234567890 implements MigrationInterface {
             name: 'updated_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
-            onUpdate: 'CURRENT_TIMESTAMP',
+          },
+        ],
+        indices: [
+          {
+            name: 'IDX_PRODUCT_ID',
+            columnNames: ['id'],
+          },
+          {
+            name: 'IDX_PRODUCT_NAME',
+            columnNames: ['name'],
           },
         ],
       }),
-      true,
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable('product');
   }
 }
