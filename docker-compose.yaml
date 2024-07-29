@@ -7,8 +7,10 @@ services:
       - ./user-service/.env
     environment:
       - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - RABBITMQ_URI=amqp://rabbitmq
     depends_on:
       - db
+      - rabbitmq
 
   product-service:
     build: ./product-service
@@ -18,8 +20,10 @@ services:
       - ./product-service/.env
     environment:
       - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - RABBITMQ_URI=amqp://rabbitmq
     depends_on:
       - db
+      - rabbitmq
 
   order-service:
     build: ./order-service
@@ -29,8 +33,10 @@ services:
       - ./order-service/.env
     environment:
       - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - RABBITMQ_URI=amqp://rabbitmq
     depends_on:
       - db
+      - rabbitmq
 
   cart-service:
     build: ./cart-service
@@ -40,8 +46,10 @@ services:
       - ./cart-service/.env
     environment:
       - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - RABBITMQ_URI=amqp://rabbitmq
     depends_on:
       - db
+      - rabbitmq
 
   db:
     image: postgres:15
@@ -51,6 +59,12 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
   pgadmin:
     image: dpage/pgadmin4:latest
