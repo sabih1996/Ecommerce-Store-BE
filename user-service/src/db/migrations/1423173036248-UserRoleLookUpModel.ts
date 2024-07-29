@@ -1,11 +1,12 @@
-// src/migrations/CreateUserTable.ts
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateUserTable1681234567890 implements MigrationInterface {
+export class CreateUserRoleLookupTable1680012300000
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user',
+        name: 'UM_UserRoleLookups',
         columns: [
           {
             name: 'id',
@@ -15,36 +16,25 @@ export class CreateUserTable1681234567890 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
-            name: 'email',
-            type: 'varchar',
-            isUnique: true,
-          },
-          {
-            name: 'password',
+            name: 'code',
             type: 'varchar',
           },
           {
             name: 'name',
             type: 'varchar',
           },
+        ],
+        indices: [
           {
-            name: 'created_at',
-            type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP',
-          },
-          {
-            name: 'updated_at',
-            type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP',
-            onUpdate: 'CURRENT_TIMESTAMP',
+            name: 'IDX_USER_ROLE_LOOKUP_ID',
+            columnNames: ['id'],
           },
         ],
       }),
-      true,
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable('UM_UserRoleLookups');
   }
 }
