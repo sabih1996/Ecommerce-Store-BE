@@ -31,4 +31,4 @@ jobs:
           file: ./user-service/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: yourdockerhubusername/user-service:latest
+          tags: ddt/user-service:latest
