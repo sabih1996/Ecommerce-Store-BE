@@ -55,6 +55,8 @@ services:
     image: postgres:15
     volumes:
       - user-data:/var/lib/postgresql/data
+    env_file:
+      - ./cart-service/.env
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
